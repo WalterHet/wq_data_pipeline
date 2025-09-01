@@ -269,36 +269,17 @@ dependencies:
 ```
 
 ---
+## Citation
 
-## Appendix B — .gitignore
+If this pipeline assists academic work, please cite:
 
-```gitignore
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-*.egg-info/
-.venv/
-.env/
-.vscode/
-.idea/
-water_qc_output/
-*.parquet
-*.png
-data/*.csv
-!data/.gitkeep
-```
+- **SaQC**:  
+  Grigoryev, S., et al. (2023). *SaQC: Streamflow and Water Quality Data Quality Control Framework*. Zenodo.  
+  [https://github.com/SaQC/SaQC](https://github.com/SaQC/SaQC)
 
----
+- **SentemQC** (Sentem-style QC adaptation):  
+  Bieroza, M., et al. (2022). *SentemQC: Flexible Quality Control for High-Frequency Water Quality Data*. Open Research Europe, 4:244.  
+  [https://open-research-europe.ec.europa.eu/articles/4-244](https://open-research-europe.ec.europa.eu/articles/4-244)
 
-## Appendix C — Makefile (optional)
+Please also cite this repository (Git tag or release) if you use the pipeline directly.
 
-```make
-.PHONY: run clean
-
-run:
-	python scripts/ufz_water_qc_pipeline.py
-
-clean:
-	rm -rf water_qc_output
-```

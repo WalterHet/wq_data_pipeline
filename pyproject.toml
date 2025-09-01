@@ -1,0 +1,11 @@
+[build-system]
+requires = ["setuptools>=68","wheel"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "wq-data-pipeline"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = ["numpy==1.26.*","pandas==2.2.*","matplotlib==3.8.*","pyarrow==16.*","scipy==1.13.*","saqc==0.7.3"]
+[project.scripts]
+wq-pipeline = "scripts.cli:main"
+
