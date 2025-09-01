@@ -774,7 +774,7 @@ def run_pipeline(csv_path,station_string,columns,base_out,station_field=None,tim
 """ MAIN """
 if __name__=='__main__':
     base_out='./water_qc_output'
-    csv_path='/home/walterh/thesis/2025_07_16_data_extention/data/Erkenruh_Einuhr/combined/Erkenruh_Einruhr.csv'
+    csv_path='../Erkenruh_Einruhr.csv'
     timestamp_col='timestamp'
     station_field=None
     station_string='Erkenruh_Einruhr'

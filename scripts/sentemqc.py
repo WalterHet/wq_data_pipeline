@@ -19,7 +19,7 @@ MINFRAC=0.3
 GAP_FACTOR=10
 YFLOOR_PERCENTILE=0.5
 
-"""""" UTILS """"""
+""" UTILS """
 def sanitize(s):
     return re.sub(r'[^A-Za-z0-9._-]+','_',str(s)).strip('_')
 def rolling_mean_std_basic(x,window,center=True,median=False,minfrac=MINFRAC):
@@ -71,12 +71,12 @@ def break_on_gaps(idx,y,gap_ns):
         if d[i-1]>gap_ns:out[i]=np.nan
     return out
 
-"""""" CONFIG """"""
+""" CONFIG """
 SENTEMQC_CONFIG={157787:{"w1":960,"sf1":3.5,"c1":True,"ta1":10.0,"bs1":1.5,"w2":960,"sf2":3.5,"c2":True,"ta2":10.0,"bs2":1.5,"w3":48,"sf3":1.7,"c3":True,"ta3":2.5,"bs3":2.5,"w4":5,"sf4":1.3,"c4":True,"ta4":0.5,"bs4":0.3,"w5":5,"sf5":1.3,"c5":True,"ta5":0.5,"bs5":0.3,"uncertainty_pct":0.05,"tri5":True},2477034:{"w1":960,"sf1":3.0,"c1":True,"ta1":1.5,"bs1":0.05,"w2":960,"sf2":2.6,"c2":True,"ta2":1.2,"bs2":0.05,"w3":48,"sf3":2.5,"c3":True,"ta3":0.35,"bs3":0.2,"w4":5,"sf4":0.3,"c4":True,"ta4":0.05,"bs4":0.025,"w5":5,"sf5":0.9,"c5":True,"ta5":0.05,"bs5":0.025,"uncertainty_pct":0.03,"tri5":True},2477787:{"w1":960,"sf1":2.5,"c1":True,"ta1":0.4,"bs1":0.05,"w2":960,"sf2":1.5,"c2":True,"ta2":0.3,"bs2":0.05,"w3":48,"sf3":1.0,"c3":True,"ta3":0.35,"bs3":0.01,"w4":5,"sf4":0.2,"c4":True,"ta4":0.03,"bs4":0.01,"w5":5,"sf5":0.9,"c5":True,"ta5":0.05,"bs5":0.025,"uncertainty_pct":0.03,"tri5":True},400:{"w1":960,"sf1":2.5,"c1":True,"ta1":0.4,"bs1":0.2,"w2":960,"sf2":2.5,"c2":True,"ta2":0.4,"bs2":0.2,"w3":48,"sf3":1.7,"c3":True,"ta3":0.35,"bs3":0.35,"w4":5,"sf4":1.3,"c4":True,"ta4":0.05,"bs4":0.05,"w5":5,"sf5":1.3,"c5":True,"ta5":0.05,"bs5":0.05,"uncertainty_pct":0.02,"tri5":True},410:{"w1":960,"sf1":2.0,"c1":True,"ta1":0.3,"bs1":0.2,"w2":960,"sf2":2.0,"c2":True,"ta2":0.3,"bs2":0.2,"w3":12,"sf3":1.6,"c3":True,"ta3":0.05,"bs3":0.05,"w4":5,"sf4":1.3,"c4":True,"ta4":0.05,"bs4":0.05,"w5":5,"sf5":1.3,"c5":True,"ta5":0.05,"bs5":0.05,"uncertainty_con":0.1,"tri5":True}}
 CALIBRATION_OFFSETS={"SurfaceWaterConcentration_O2 [mg*L-1]":0.0,"SurfaceWaterpH [pH]":0.0,"SurfaceWaterTurbidity [NTU]":0.0,"SurfaceWaterConcentration_NO3_Trios [mg*L-1]":0.0,"SurfaceWaterConcentration_NO3_YSI [mg*L-1]":0.0}
 VARIABLE_MAP=[{"col":"SurfaceWaterConcentration_O2 [mg*L-1]","code":400,"unit":"mg/L","label":"Dissolved Oxygen","is_nitrate":False},{"col":"SurfaceWaterpH [pH]","code":410,"unit":"","label":"pH","is_nitrate":False},{"col":"SurfaceWaterTurbidity [NTU]","code":157787,"unit":"NTU","label":"Turbidity","is_nitrate":False},{"col":"SurfaceWaterConcentration_NO3_Trios [mg*L-1]","code":2477034,"unit":"mg/L","label":"NO3 Trios","is_nitrate":True},{"col":"SurfaceWaterConcentration_NO3_YSI [mg*L-1]","code":2477787,"unit":"mg/L","label":"NO3 YSI","is_nitrate":True}]
 
-"""""" CORE QC """"""
+""" CORE QC """
 def apply_sentemqc_to_series(ts,code,config,is_nitrate):
     ts_in=pd.Series(ts.astype(float))
     mask_pre=(~np.isfinite(ts_in))|(ts_in<=0)
@@ -113,7 +113,7 @@ def apply_sentemqc_to_series(ts,code,config,is_nitrate):
     df["mask_pre"]=mask_pre.values
     return df[["OBS_in","OBS_raw","value_masked","flag_global","is_flagged","flag_reason","qcband_top","qcband_bottom","mask_pre"]]
 
-"""""" PLOTTER """"""
+""" PLOTTER """
 def plot_combined_log_gap(idx,raw,is_flagged,top,bot,title,ylabel,mask_pct,avail_pct,flag_pct,savepath=None):
     raw=np.asarray(raw,dtype=float);is_flagged=np.asarray(is_flagged,dtype=bool)
     acc=np.where((~is_flagged)&np.isfinite(raw)&(raw>0),raw,np.nan);flg=np.where(is_flagged&np.isfinite(raw)&(raw>0),raw,np.nan)
@@ -141,7 +141,7 @@ def plot_combined_log_gap(idx,raw,is_flagged,top,bot,title,ylabel,mask_pct,avail
     if savepath is not None:plt.savefig(savepath,bbox_inches='tight')
     plt.close(fig)
 
-"""""" RUNNERS """"""
+""" RUNNERS """
 def run_sentemqc_on_dataframe(df,variable_map=VARIABLE_MAP,calibration_offsets=CALIBRATION_OFFSETS,config=SENTEMQC_CONFIG,start_time=None,end_time=None,plot_dir=None):
     d=df.copy()
     if start_time is not None and end_time is not None:
@@ -174,9 +174,9 @@ def run_sentemqc_on_file(base_csv,start_time=None,end_time=None,plot_dir=None):
     df=pd.read_csv(base_csv,parse_dates=["timestamp"]).set_index("timestamp").sort_index()
     return run_sentemqc_on_dataframe(df,start_time=start_time,end_time=end_time,plot_dir=plot_dir)
 
-"""""" MAIN """"""
+""" MAIN """
 if __name__=='__main__':
-    base_csv="./Erkenruh_Einruhr.csv"
+    base_csv="../Erkenruh_Einruhr.csv"
     plot_dir="./water_qc_output/reports/figures/Erkenruh_Einruhr/sentemqc"
     _df,_res=run_sentemqc_on_file(base_csv,plot_dir=plot_dir)
     out_csv="./water_qc_output/processed/Erkenruh_Einruhr/sentemqc_export.csv"
