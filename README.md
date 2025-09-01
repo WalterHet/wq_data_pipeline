@@ -5,6 +5,11 @@ Raw data is never discarded: outputs include `__raw`, `__clean`, and `__accepted
 
 ---
 
+
+![Pipeline overview](docs/pipeline_overview.png)
+
+
+
 ## Overview
 
 This repository contains two main modules:
