@@ -1,0 +1,6 @@
+station,col,step,sentinel_used,duplicates,wrtds_ok
+Erkenruh_Einruhr,SurfaceWaterConcentration_O2 [mg*L-1],0 days 00:15:00,[],0,False
+Erkenruh_Einruhr,SurfaceWaterpH [pH],0 days 00:15:00,[],0,False
+Erkenruh_Einruhr,SurfaceWaterTurbidity [NTU],0 days 00:15:00,[],0,False
+Erkenruh_Einruhr,SurfaceWaterConcentration_NO3_Trios [mg*L-1],0 days 00:15:00,[],0,False
+Erkenruh_Einruhr,SurfaceWaterConcentration_NO3_YSI [mg*L-1],0 days 00:15:00,[],0,False
